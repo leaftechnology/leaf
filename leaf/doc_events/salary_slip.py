@@ -24,12 +24,12 @@ def add_leave_encashment(doc, method):
         if remaining_leaves > i.get("days") and leave > 0:
             leave_deduction = remaining_leaves - i.get("days") #90 - 60
             if leave_deduction >= leave:
-                leave_type = get_leave_type("Privilege Leave", i.get("quarter"))
+                leave_type = get_leave_type("Sick Leave", i.get("quarter"))
                 amount += ((leave_type[0].percentage / 100) * (salary_structure[0].base / 30)) * leave
                 remaining_leaves = remaining_leaves - leave
                 leave = 0
             else:
-                leave_type = get_leave_type("Privilege Leave", i.get("quarter"))
+                leave_type = get_leave_type("Sick Leave", i.get("quarter"))
                 amount += ((leave_type[0].percentage / 100) * (salary_structure[0].base / 30)) * leave_deduction
                 remaining_leaves = remaining_leaves - leave
                 leave -= leave_deduction
