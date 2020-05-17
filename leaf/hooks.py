@@ -26,7 +26,11 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+    "Leave Type" : "public/js/leave_type.js",
+    "Leave Allocation" : "public/js/leave_allocation.js",
+    "Leave Application" : "public/js/leave_application.js"
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -79,13 +83,15 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Salary Slip": {
+		"validate": "leaf.doc_events.salary_slip.add_leave_encashment",
+		"on_submit": "leaf.doc_events.salary_slip.submit_salary_slip",
+	},
+    "Leave Allocation": {
+        "on_submit": "leaf.doc_events.employee.update_employee_leave"
+    }
+}
 
 # Scheduled Tasks
 # ---------------
@@ -127,3 +133,22 @@ app_license = "MIT"
 # 	"Task": "leaf.task.get_dashboard_data"
 # }
 
+fixtures = [
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Employee-leave_balance",
+                    "Salary Slip-total_leaves",
+                    "Leave Type-percentage_table",
+                    "Leave Type-enable_percentages",
+                    "Leave Type-quarter_percentages",
+                    "Salary Slip-remaining_leaves",
+                ]
+            ]
+        ]
+    }
+]
