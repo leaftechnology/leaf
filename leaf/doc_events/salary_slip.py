@@ -3,6 +3,7 @@ from datetime import *
 
 @frappe.whitelist()
 def add_leave_encashment(doc, method):
+
     from_date = (datetime.strptime(doc.start_date, "%Y-%m-%d")).date()
     to_date = (datetime.strptime(doc.end_date, "%Y-%m-%d")).date()
     salary_structure = frappe.db.sql(""" SELECT * FROM `tabSalary Structure Assignment` WHERE salary_structure=%s and employee=%s""",(doc.salary_structure,doc.employee),as_dict=1)
@@ -24,12 +25,12 @@ def add_leave_encashment(doc, method):
         if remaining_leaves > i.get("days") and leave > 0:
             leave_deduction = remaining_leaves - i.get("days") #90 - 60
             if leave_deduction >= leave:
-                leave_type = get_leave_type("Sick Leave", i.get("quarter"))
+                leave_type = get_leave_type("Privilege Leave", i.get("quarter"))
                 amount += ((leave_type[0].percentage / 100) * (salary_structure[0].base / 30)) * leave
                 remaining_leaves = remaining_leaves - leave
                 leave = 0
             else:
-                leave_type = get_leave_type("Sick Leave", i.get("quarter"))
+                leave_type = get_leave_type("Privilege Leave", i.get("quarter"))
                 amount += ((leave_type[0].percentage / 100) * (salary_structure[0].base / 30)) * leave_deduction
                 remaining_leaves = remaining_leaves - leave
                 leave -= leave_deduction
@@ -62,3 +63,8 @@ def get_leave_type(leave_type, quarter):
 
 def submit_salary_slip(doc, method):
     update_leave_employee(doc.remaining_leaves, doc.employee)
+
+
+
+def cancel_salary_slip(doc, method):
+    update_leave_employee(doc.remaining_leaves + doc.total_leaves, doc.employee)

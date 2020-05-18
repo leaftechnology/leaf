@@ -87,9 +87,11 @@ doc_events = {
 	"Salary Slip": {
 		"validate": "leaf.doc_events.salary_slip.add_leave_encashment",
 		"on_submit": "leaf.doc_events.salary_slip.submit_salary_slip",
+		"on_cancel": "leaf.doc_events.salary_slip.cancel_salary_slip",
 	},
     "Leave Allocation": {
-        "on_submit": "leaf.doc_events.employee.update_employee_leave"
+        "on_submit": "leaf.doc_events.employee.update_employee_leave",
+        "on_cancel": "leaf.doc_events.employee.cancel_leave_allocation"
     }
 }
 
