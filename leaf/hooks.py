@@ -91,7 +91,7 @@ doc_events = {
 	},
     "Leave Allocation": {
         "on_submit": "leaf.doc_events.employee.update_employee_leave",
-        "on_cancel": "leaf.doc_events.employee.cancel_leave_allocation"
+        "on_cancel": "leaf.doc_events.employee.cancel_employee_leave"
     }
 }
 
