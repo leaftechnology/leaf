@@ -64,7 +64,6 @@ def get_leave_type(leave_type, quarter):
 def submit_salary_slip(doc, method):
     update_leave_employee(doc.remaining_leaves, doc.employee)
 
-
-
 def cancel_salary_slip(doc, method):
-    update_leave_employee(doc.remaining_leaves + doc.total_leaves, doc.employee)
+    remaining_leaves = int(frappe.db.sql(""" SELECT * FROM `tabEmployee` WHERE name=%s """, doc.employee, as_dict=1)[0].leave_balance)
+    update_leave_employee(remaining_leaves + doc.total_leaves, doc.employee)
