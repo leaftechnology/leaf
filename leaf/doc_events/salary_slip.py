@@ -15,7 +15,7 @@ def add_leave_encashment(doc, method):
         if len(leave_application) > 0:
             leave += 1
         else:
-            reg = 0
+            reg += 1
         from_date = (from_date + timedelta(days=1))
 
 
