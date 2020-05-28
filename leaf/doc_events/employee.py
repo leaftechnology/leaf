@@ -14,5 +14,5 @@ def cancel_employee_leave(doc, method):
         new_leave = employee[0].leave_balance
         if employee[0].leave_balance > 0:
             new_leave = int(employee[0].leave_balance) - int(doc.total_leaves_allocated) if int(employee[0].leave_balance) - int(doc.total_leaves_allocated) > 0 else 0
-        frappe.db.sql(""" UPDATE tabEmployee SET leave_balance=%s WHERE name=%s """,(new_leave,doc.employee))
+        frappe.db.sql(""" UPDATE tabEmployee SET leave_balance=%s WHERE name=%s """,(str(new_leave),doc.employee))
         frappe.db.commit()
