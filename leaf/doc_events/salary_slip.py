@@ -9,10 +9,13 @@ def add_leave_encashment(doc, method):
     salary_structure = frappe.db.sql(""" SELECT * FROM `tabSalary Structure Assignment` WHERE salary_structure=%s and employee=%s""",(doc.salary_structure,doc.employee),as_dict=1)
     amount = 0
     leave = 0
+    reg = 0
     while (from_date <= to_date):
         leave_application = get_leave_application(from_date, doc.employee)
         if len(leave_application) > 0:
             leave += 1
+        else:
+            reg = 0
         from_date = (from_date + timedelta(days=1))
 
 
@@ -38,11 +41,11 @@ def add_leave_encashment(doc, method):
     for ii in doc.earnings:
         if ii.__dict__['salary_component'] == "Basic":
             add = False
-            ii.__dict__['amount'] = amount
+            ii.__dict__['amount'] = amount + ((salary_structure[0].base / 30) * reg)
     if amount > 0 and add:
         doc.append("earnings", {
             "salary_component": "Basic",
-            "amount": amount
+            "amount": amount + ((salary_structure[0].base / 30) * reg)
         })
     doc.remaining_leaves = remaining_leaves - leave
 
